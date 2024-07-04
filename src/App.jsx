@@ -75,6 +75,7 @@ function App() {
               <div className="todo_content">
                 <h1 className='todo_title'>
                   To Do List
+                  <span>Tasks: {state.name.length}</span>
                 </h1>
                 <form className="form" onSubmit={handleSubmit}>
                   <input type="text" placeholder='Add to task' ref={inputRef} required />
