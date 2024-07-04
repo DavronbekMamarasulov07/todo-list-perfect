@@ -1,43 +1,11 @@
-import { FcDeleteDatabase } from "react-icons/fc"; 
 import { TiDeleteOutline } from "react-icons/ti";
 import { BiCheck } from "react-icons/bi";
 import { useReducer, useRef, useState, useEffect } from 'react';
 import './App.css';
 import { Flip, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { reducer } from "./context/reducer";
 
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'ADD_TASK':
-      const newName = [...state.name, { text: action.payload, completed: false }];
-      localStorage.setItem("tasks", JSON.stringify(newName)); 
-      return {
-        ...state,
-        name: newName
-      };
-    case 'REMOVE_FROM_TASK':
-      const filteredTasks = state.name.filter(task => task !== action.payload);
-      localStorage.setItem("tasks", JSON.stringify(filteredTasks)); 
-      return {
-        ...state,
-        name: filteredTasks
-      };
-    case 'TOGGLE_TASK':
-      const updatedTasks = state.name.map((task, index) => {
-        if (index === action.payload) {
-          return { ...task, completed: !task.completed };
-        }
-        return task;
-      });
-      localStorage.setItem("tasks", JSON.stringify(updatedTasks));
-      return {
-        ...state,
-        name: updatedTasks
-      };
-    default:
-      return state;
-  }
-}
 
 function App() {
   const initialState = {
@@ -58,8 +26,6 @@ function App() {
     };
   }, []);
 
-
-
   const loadToast = () => ({
     position: "top-right",
     autoClose: 5000,
@@ -76,14 +42,10 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const inputValue = inputRef.current.value.trim(); 
-  
     if (!inputValue) {
       toast.warning('Enter a task', loadToast());
       return; 
     }
-  
-   
-  
     dispatch({ type: 'ADD_TASK', payload: inputValue });
     toast.success(`Task succesfully added`, loadToast());
     inputRef.current.value = '';
@@ -97,7 +59,6 @@ function App() {
 
   const handleCheckTask = (index) => {
     dispatch({ type: 'TOGGLE_TASK', payload: index });
-
   }
 
   const [data, setData] = useState(1);
@@ -105,7 +66,7 @@ function App() {
 
   return (
    <>
-         <div>
+    <div>
       <div className="todo">
         <div className="container">
           <div className="todo_main_content">
