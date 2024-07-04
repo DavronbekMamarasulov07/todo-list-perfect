@@ -1,8 +1,9 @@
+import { FcDeleteDatabase } from "react-icons/fc"; 
 import { TiDeleteOutline } from "react-icons/ti";
 import { BiCheck } from "react-icons/bi";
 import { useReducer, useRef, useState, useEffect } from 'react';
 import './App.css';
-import { ToastContainer, toast, Bounce } from 'react-toastify';
+import { Flip, ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const reducer = (state, action) => {
@@ -57,56 +58,41 @@ function App() {
     };
   }, []);
 
+
+
+  const loadToast = () => ({
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    transition: Flip,
+  })
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const inputValue = inputRef.current.value.trim(); 
   
     if (!inputValue) {
-      toast.error('Enter a task', {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-      });
+      toast.warning('Enter a task', loadToast());
       return; 
     }
   
    
   
     dispatch({ type: 'ADD_TASK', payload: inputValue });
-    toast.success('Task succesfully added', {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      transition: Bounce,
-  });
+    toast.success(`Task succesfully added`, loadToast());
     inputRef.current.value = '';
   }
   
 
   const handleRemoveFromTask = (task) => {
     dispatch({ type: 'REMOVE_FROM_TASK', payload: task });
-    toast.success('Task succesfully deleted', {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-      transition: Bounce,
-  });
+    toast.error('Task succesfully deleted', loadToast());
   }
 
   const handleCheckTask = (index) => {
@@ -115,7 +101,7 @@ function App() {
   }
 
   const [data, setData] = useState(1);
-  const count = 5; 
+  const count = 4; 
 
   return (
    <>
@@ -128,7 +114,6 @@ function App() {
                 <h1 className='todo_title'>
                   To Do List
                 </h1>
-
                 <form className="form" onSubmit={handleSubmit}>
                   <input type="text" placeholder='Add to task' ref={inputRef} required />
                   <button>Add task</button>
@@ -141,7 +126,7 @@ function App() {
                 {state.name.slice(0, count * data).map((task, index) => (
                   <div key={index}>
                     <div className="todo_task">
-                      <strong style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>{task.text}</strong>
+                      <strong className="todo_task_text" style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>  {task.text}</strong>
                       <div className="task_btn_content">
                         <button className="task_check_btn" onClick={() => handleCheckTask(index)}>
                           <BiCheck />
