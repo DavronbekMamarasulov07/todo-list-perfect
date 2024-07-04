@@ -1,3 +1,4 @@
+import { BiCheckDouble } from "react-icons/bi"; 
 import { TiDeleteOutline } from "react-icons/ti";
 import { BiCheck } from "react-icons/bi";
 import { useReducer, useRef, useState, useEffect } from 'react';
@@ -89,8 +90,9 @@ function App() {
                     <div className="todo_task">
                       <strong className="todo_task_text" style={{ textDecoration: task.completed ? 'line-through' : 'none' }}>  {task.text}</strong>
                       <div className="task_btn_content">
-                        <button className="task_check_btn" onClick={() => handleCheckTask(index)}>
-                          <BiCheck />
+                        <button className="task_check_btn" onClick={() => handleCheckTask(index) } >
+                          <BiCheckDouble style={task.completed ? {display: "block"}: {display: "none"}} />
+                          <BiCheck style={task.completed ? {display: "none"}: {display: "block"}}/>
                         </button>
                         <button onClick={() => handleRemoveFromTask(task)} className="task_delete_btn">
                           <TiDeleteOutline />
