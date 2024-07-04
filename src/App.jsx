@@ -44,7 +44,7 @@ function App() {
     e.preventDefault();
     const inputValue = inputRef.current.value.trim(); 
     if (!inputValue) {
-      toast.warning('Enter a task', loadToast());
+      toast.info('Enter a task', loadToast());
       return; 
     }
     dispatch({ type: 'ADD_TASK', payload: inputValue });
